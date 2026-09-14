@@ -317,6 +317,22 @@ void main() {
       expect(find.text('Settings & Reminders'), findsOneWidget);
       expect(find.text('Daily Pending Task Reminder'), findsOneWidget);
       expect(find.textContaining('Remind me at 9:00 PM'), findsOneWidget);
+
+      // Close bottom sheet
+      Navigator.of(tester.element(find.text('Settings & Reminders'))).pop();
+      await tester.pumpAndSettle();
+
+      // Delete task from History tab
+      expect(find.byIcon(Icons.delete_outline_rounded), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Delete task?'), findsOneWidget);
+      await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Meditation Habit'), findsNothing);
+      expect(find.text('No routine history yet'), findsOneWidget);
     });
   });
 }

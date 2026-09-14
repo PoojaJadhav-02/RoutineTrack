@@ -7,9 +7,9 @@ class DailyFlowLogo extends StatelessWidget {
 
   const DailyFlowLogo({
     super.key,
-    this.size = 32,
+    this.size = 30,
     this.showText = true,
-    this.fontSize = 20,
+    this.fontSize = 19,
   });
 
   @override
@@ -20,26 +20,37 @@ class DailyFlowLogo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(size * 0.3),
-            boxShadow: [
-              BoxShadow(
-                color: primaryColor.withValues(alpha: 0.25),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Icon(
-              Icons.check_rounded,
-              color: Colors.white,
-              size: size * 0.65,
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(size * 0.28),
+          child: Image.asset(
+            'assets/images/app_logo.png',
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      primaryColor,
+                      const Color(0xFF7C3AED),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(size * 0.28),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: Colors.white,
+                    size: size * 0.65,
+                  ),
+                ),
+              );
+            },
           ),
         ),
         if (showText) ...[

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../../domain/entities/task.dart';
 import '../../controllers/task_controller.dart';
+import '../../widgets/confirmation_dialog.dart';
 import 'widgets/history_date_card.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -11,6 +13,26 @@ class HistoryScreen extends StatelessWidget {
     super.key,
     this.onNavigateToDate,
   });
+
+  Future<void> _handleDeleteTask(BuildContext context, Task task) async {
+    final confirmed = await ConfirmationDialog.show(
+      context,
+      title: 'Delete task?',
+      content: 'Are you sure you want to delete "${task.title}" from history?',
+      confirmText: 'Delete',
+    );
+    if (confirmed == true && context.mounted) {
+      await context.read<TaskController>().deleteTask(task.id);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Deleted "${task.title}"'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 
   Future<void> _pickDate(BuildContext context, TaskController controller) async {
     final picked = await showDatePicker(
@@ -145,6 +167,8 @@ class HistoryScreen extends StatelessWidget {
                               onOpenInToday: onNavigateToDate != null
                                   ? () => onNavigateToDate!(summary.date)
                                   : null,
+                              onDeleteTask: (task) =>
+                                  _handleDeleteTask(context, task),
                             );
                           },
                           childCount: filteredSummaries.length,

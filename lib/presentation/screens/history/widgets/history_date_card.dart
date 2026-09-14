@@ -7,11 +7,13 @@ import '../../../../domain/entities/task.dart';
 class HistoryDateCard extends StatelessWidget {
   final DateTaskSummary summary;
   final VoidCallback? onOpenInToday;
+  final ValueChanged<Task>? onDeleteTask;
 
   const HistoryDateCard({
     super.key,
     required this.summary,
     this.onOpenInToday,
+    this.onDeleteTask,
   });
 
   @override
@@ -184,6 +186,21 @@ class HistoryDateCard extends StatelessWidget {
                 color: theme.textTheme.bodySmall?.color
                     ?.withValues(alpha: isDone ? 0.35 : 0.55),
               ),
+            ),
+          ],
+          if (onDeleteTask != null) ...[
+            const SizedBox(width: 4),
+            IconButton(
+              icon: Icon(
+                Icons.delete_outline_rounded,
+                size: 16,
+                color: theme.colorScheme.error.withValues(alpha: 0.7),
+              ),
+              tooltip: 'Delete task',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 26, minHeight: 26),
+              onPressed: () => onDeleteTask!(task),
             ),
           ],
         ],

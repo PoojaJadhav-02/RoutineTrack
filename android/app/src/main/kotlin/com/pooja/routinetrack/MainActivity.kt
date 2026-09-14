@@ -1,4 +1,4 @@
-package com.example.routinetrack
+package com.pooja.routinetrack
 
 import io.flutter.embedding.android.FlutterActivity
 
