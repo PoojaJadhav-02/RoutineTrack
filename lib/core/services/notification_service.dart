@@ -202,7 +202,7 @@ class NotificationService {
         scheduledDate: scheduledTime,
         notificationDetails: notificationDetails,
         payload: AppConstants.notificationPayloadOpenToday,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time,
       );
       debugPrint('Scheduled 9 PM reminder for $scheduledTime with message: "$body"');
